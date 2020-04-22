@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private float jump_blocked = 10f;
     private Vector2 maxVelocity = new Vector2(10, 10);
 
+    public AudioSource audio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (GetComponent<Rigidbody2D>() == null) return;
         if (rb.velocity.y < 0) { anim.SetBool("jump", false); }
         if (rb.velocity.y < -0.1) { anim.SetBool("float", true); } else { anim.SetBool("float", false); }
 
@@ -36,13 +38,14 @@ public class PlayerController : MonoBehaviour
 
         if (is_grounded)
         {
-            if (anim.GetBool("float") || anim.GetBool("jump")) { anim.SetBool("float", false); }
+            if (anim.GetBool("float") || anim.GetBool("jump")) { anim.SetBool("float", false); audio.Play(); }
             if (try_jump > 0.1)
             {
                 if (jump_blocked <= 0)
                 {
                     force.y += jump_force;
                     anim.SetBool("jump", true);
+                    audio.Play();
                     jump_blocked = 10f;
                 }
                 else

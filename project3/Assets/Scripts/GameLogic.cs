@@ -28,6 +28,7 @@ public class GameLogic : MonoBehaviour
         CircleCollider2D cc;
         for (int i = 0; i < balls.Count; i++)
         {
+            if (balls[i] == null) continue;
             b = balls[i];
             cc = b.GetComponent<CircleCollider2D>();
             if (cc.bounds.center.y + cc.bounds.extents.y < Camera.main.transform.position.y - Camera.main.orthographicSize)
